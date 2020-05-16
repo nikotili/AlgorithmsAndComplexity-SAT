@@ -12,6 +12,6 @@ public class Main {
 
         boolean[] assignment = {false, true, false, true, false};
 
-        System.out.println(CnfFactory.newCnfFrom(formula, assignment).getValue());
+        System.out.println(Cnf.newCnfFrom(formula, assignment).getValue());
     }
 }

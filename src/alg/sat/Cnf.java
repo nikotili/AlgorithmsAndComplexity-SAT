@@ -34,4 +34,22 @@ public class Cnf implements Valuable {
     }
 
 
+    public static Cnf newCnfFrom(int[][] formula, boolean[] assignment) {
+        int length = assignment.length;
+
+        Literal[] vars = new Literal[length];
+        for (int i = 0; i < length; i++) {
+            vars[i] = new Literal(i + "", assignment[i]);
+        }
+
+        Cnf cnf = new Cnf();
+
+        for (int[] clause : formula) {
+            Clause clauseObj = Clause.newClauseFrom(vars, clause);
+            cnf.addClause(clauseObj);
+        }
+
+        return cnf;
+    }
+
 }

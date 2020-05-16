@@ -34,4 +34,13 @@ public class Clause implements Valuable {
                 .count() <= 1;
     }
 
+    public static Clause newClauseFrom(Literal[] vars, int[] clause) {
+        Clause clauseObj = new Clause();
+        for (int var : clause) {
+            Literal literal = var < 0 ? vars[-var].negation() : vars[var];
+            clauseObj.addLiteral(literal);
+        }
+        return clauseObj;
+    }
+
 }
