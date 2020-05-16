@@ -33,9 +33,6 @@ public class Literal implements Valuable {
 
     @Override
     public String toString() {
-        return "Literal{" +
-                "name='" + name + '\'' +
-                ", value=" + value +
-                '}';
+        return value + "";
     }
 }

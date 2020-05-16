@@ -2,6 +2,8 @@ package alg.sat;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.StringJoiner;
+import java.util.stream.Collectors;
 
 public class Clause implements Valuable {
     private final Collection<Literal> literals;
@@ -20,8 +22,8 @@ public class Clause implements Valuable {
                 .anyMatch(Literal::getValue);
     }
 
-    public boolean hasSizeNotTwo() {
-        return literals.size() != 2;
+    public boolean hasMoreThanTwoLiterals() {
+        return literals.size() > 2;
     }
 
     public boolean isFalse() {
@@ -34,7 +36,7 @@ public class Clause implements Valuable {
                 .count() <= 1;
     }
 
-    public static Clause newClauseFrom(Literal[] vars, int[] clause) {
+    public static Clause from(Literal[] vars, int[] clause) {
         Clause clauseObj = new Clause();
         for (int var : clause) {
             Literal literal = var < 0 ? vars[-var].negation() : vars[var];
@@ -43,4 +45,13 @@ public class Clause implements Valuable {
         return clauseObj;
     }
 
+    @Override
+    public String toString() {
+        String literals = this.literals
+                .stream()
+                .map(Literal::toString)
+                .collect(Collectors.joining(" or "));
+
+        return '(' + literals + ')';
+    }
 }

@@ -6,5 +6,8 @@ public class Support {
         throw new IllegalAccessException();
     }
 
+    public static Boolean[] generateDefaultAssignment(int numOfVars) {
+        return new Boolean[numOfVars];
+    }
 
 }
