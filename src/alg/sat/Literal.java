@@ -1,15 +1,11 @@
 package alg.sat;
 
-public class Literal {
-    private String name;
-    private boolean value;
+public class Literal implements Valuable {
+    private final String name;
+    private final boolean value;
 
     public Literal(String name, boolean value) {
         this.name = name;
-        this.value = value;
-    }
-
-    public Literal(boolean value) {
         this.value = value;
     }
 
@@ -18,7 +14,6 @@ public class Literal {
     }
 
     public boolean getValue() {
-        System.out.println("used");
         return value;
     }
 
@@ -26,6 +21,14 @@ public class Literal {
         String name = this.name + " or " + that.name;
         boolean value = this.value || that.value;
         return new Literal(name, value);
+    }
+
+    public LiteralNegation negation() {
+        return new LiteralNegation("~" + name, !value);
+    }
+
+    public boolean isPositiveLiteral() {
+        return !(this instanceof LiteralNegation);
     }
 
     @Override
