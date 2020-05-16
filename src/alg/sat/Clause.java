@@ -31,9 +31,16 @@ public class Clause implements Valuable {
     }
 
     public boolean hasAtMostOnePositiveLiteral() {
-        return literals.stream()
-                .filter(Literal::isPositiveLiteral)
-                .count() <= 1;
+        int numOfPositiveLiterals = 0;
+
+        for (Literal literal : literals) {
+            if (literal.isPositiveLiteral()) {
+                numOfPositiveLiterals++;
+                if (numOfPositiveLiterals > 1)
+                    return false;
+            }
+        }
+        return true;
     }
 
     public static Clause from(Literal[] vars, int[] clause) {
