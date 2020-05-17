@@ -6,7 +6,7 @@ import java.util.*;
 
 public class Graph<N> {
     private Set<N> nodes;
-    private final Map<N, Set<N>> map;
+    private Map<N, Set<N>> map;
 
     public Graph() {
         this.nodes = new LinkedHashSet<>();
@@ -96,18 +96,21 @@ public class Graph<N> {
         return reversedGraph;
     }
 
-    public Map<Integer, Set<N>> getSCCs() {
+    public Map<Integer, Set<N>> SCCs() {
+
         Graph<N> reverse = this.createReverse();
         reverse.dfs();
         Map<N, Integer> reversePostVisit = reverse.getPostVisit();
         Integer reverseClock = reverse.getClock();
-        Object[] objects = new Object[reverseClock];
+        N[] nodesPrime = (N[]) new Object[reverseClock];
 
-        reversePostVisit.forEach((n, postValue) -> objects[postValue] = n);
+        reversePostVisit.forEach((literal, postValue) -> nodesPrime[postValue] = literal);
+
         this.nodes = new LinkedHashSet<>();
-        for (int i = objects.length - 1; i >= 0; i--) {
-            if (objects[i] != null)
-                this.addNode((N) objects[i]);
+        this.map = new HashMap<>();
+        for (int i = nodesPrime.length - 1; i >= 0; i--) {
+            if (nodesPrime[i] != null)
+                this.addNode(nodesPrime[i]);
         }
 
         return this.dfs();

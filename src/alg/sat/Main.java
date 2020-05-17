@@ -3,9 +3,7 @@ package alg.sat;
 import alg.sat.graph.Graph;
 
 import java.util.Arrays;
-import java.util.LinkedHashSet;
 import java.util.Map;
-import java.util.Set;
 
 public class Main {
 
@@ -56,7 +54,9 @@ public class Main {
 
         System.out.println(literalGraph.dfs());
 
-        System.out.println(literalGraph.getSCCs());
+        literalGraph = Cnf.from(formula, Support.generateDefaultAssignment(4)).to2SATGraph();
+
+        System.out.println(literalGraph.SCCs());
     }
 
     //todo needs optimization
