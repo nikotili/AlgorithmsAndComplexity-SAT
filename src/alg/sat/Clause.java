@@ -1,7 +1,5 @@
 package alg.sat;
 
-import alg.sat.graph.Edge;
-
 import java.util.*;
 import java.util.stream.Collectors;
 

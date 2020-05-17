@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="Algorithms and Complexity - SAT" options="--add-exports jdk.jdeps/com.sun.tools.jdeps=ALL-UNNAMED" />
+    </option>
+  </component>
+</project>

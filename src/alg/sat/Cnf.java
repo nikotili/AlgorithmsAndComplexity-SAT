@@ -2,7 +2,6 @@ package alg.sat;
 
 
 import alg.sat.graph.Graph;
-import alg.sat.graph.Node;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -66,10 +65,9 @@ public class Cnf implements Valuable {
             graph.addNode(literal.getNegation());
         }
 
-        for (Clause clause : clauses) {
-            Map<Literal, Literal> clauseEdges = clause.get2SATGraphEdges();
-            clauseEdges.forEach(graph::addEdge);
-        }
+        clauses.stream()
+                .map(Clause::get2SATGraphEdges)
+                .forEach(map -> map.forEach(graph::addEdge));
 
         return graph;
     }
