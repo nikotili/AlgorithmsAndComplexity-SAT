@@ -43,11 +43,11 @@ public class Clause implements Valuable {
         return true;
     }
 
-    public static Clause from(Literal[] vars, int[] clause) {
+    public static Clause from(Literal[] literals, int[] clause) {
         Clause clauseObj = new Clause();
-        for (int var : clause) {
-            Literal literal = var < 0 ? vars[-var].negation() : vars[var];
-            clauseObj.addLiteral(literal);
+        for (int literal : clause) {
+            Literal literalObj = literal < 0 ? literals[-literal - 1].negation() : literals[literal - 1];
+            clauseObj.addLiteral(literalObj);
         }
         return clauseObj;
     }

@@ -1,32 +1,33 @@
 package alg.sat;
 
-import java.nio.LongBuffer;
 import java.util.Arrays;
-import java.util.BitSet;
 
 public class Main {
 
     public static void main(String[] args) {
         int[][] formula = new int[][]{
-                {0, -1},
-                {0, -2},
-                {0, -3, -4},
-                {-3, -4}
+                {1, -2},
+                {-1, -3},
+                {1, 2},
+                {-3, 4},
+                {-1, 4}
         };
-        solveGeneralSAT(formula, 5);
+        testGeneral();
+//        solveGeneralSAT(formula, 4);
     }
 
     private static void testGeneral() {
         int[][] formula = new int[][]{
-                {0, -1},
-                {0, -2},
-                {0, -3, -4},
-                {-3, -4}
+                {1, -2},
+                {-1, -3},
+                {1, 2},
+                {-3, 4},
+                {-1, 4}
         };
 
-        Boolean[] assignment = Support.generateDefaultAssignment(5);
+        Boolean[] assignment = new Boolean[] {Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, Boolean.TRUE};
 
-        System.out.println(Cnf.from(formula, assignment).isHornSAT());
+        System.out.println(Cnf.from(formula, assignment).getValue());
     }
 
     //todo needs optimization
@@ -48,6 +49,4 @@ public class Main {
             System.out.println(cnf + ": " + cnf.getValue());
         }
     }
-
-
 }
