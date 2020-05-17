@@ -27,7 +27,7 @@ public class Main {
 
         Boolean[] assignment = new Boolean[] {Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, Boolean.TRUE};
 
-        System.out.println(Cnf.from(formula, assignment).getValue());
+        System.out.println(Cnf.from(formula, Support.generateDefaultAssignment(4)).to2SATGraph());
     }
 
     //todo needs optimization

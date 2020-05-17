@@ -1,19 +1,19 @@
 package alg.sat.graph;
 
 public class Edge {
-    private Vertex v1;
-    private Vertex v2;
+    private Node n1;
+    private Node n2;
 
-    public Edge(Vertex v1, Vertex v2) {
-        this.v1 = v1;
-        this.v2 = v2;
+    public Edge(Node n1, Node n2) {
+        this.n1 = n1;
+        this.n2 = n2;
     }
 
-    public Vertex getV1() {
-        return v1;
+    public Node getN1() {
+        return n1;
     }
 
-    public Vertex getV2() {
-        return v2;
+    public Node getN2() {
+        return n2;
     }
 }

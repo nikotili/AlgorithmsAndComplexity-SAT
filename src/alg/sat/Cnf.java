@@ -1,19 +1,19 @@
 package alg.sat;
 
-import java.util.ArrayList;
-import java.util.Collection;
+
+import alg.sat.graph.Graph;
+import alg.sat.graph.Node;
+
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Cnf implements Valuable {
     private final Collection<Clause> clauses;
+    private final int numOfVars;
 
-    public Cnf() {
+    private Cnf(int numOfVars) {
+        this.numOfVars = numOfVars;
         clauses = new ArrayList<>();
-    }
-
-    public Cnf addClause(Clause clause) {
-        clauses.add(clause);
-        return this;
     }
 
     public boolean getValue() {
@@ -38,16 +38,16 @@ public class Cnf implements Valuable {
     public static Cnf from(int[][] formula, Boolean[] assignment) {
         int length = assignment.length;
 
-        Literal[] vars = new Literal[length];
+        Literal[] literals = new Literal[length];
         for (int i = 0; i < length; i++) {
-            vars[i] = new Literal(i + "", assignment[i]);
+            literals[i] = new Literal(String.valueOf(i + 1), assignment[i]);
         }
 
-        Cnf cnf = new Cnf();
+        Cnf cnf = new Cnf(length);
 
         for (int[] clause : formula) {
-            Clause clauseObj = Clause.from(vars, clause);
-            cnf.addClause(clauseObj);
+            Clause clauseObj = Clause.from(literals, clause);
+            cnf.clauses.add(clauseObj);
         }
 
         return cnf;
@@ -55,6 +55,23 @@ public class Cnf implements Valuable {
 
     public static Cnf defaultFrom(int[][] formula, int numOfVars) {
         return from(formula, Support.generateDefaultAssignment(numOfVars));
+    }
+
+    public Graph<Literal> to2SATGraph() {
+        Graph<Literal> graph = new Graph<>();
+
+        for (int i = 0; i < numOfVars; i++) {
+            Literal literal = new Literal(String.valueOf(i + 1), Boolean.TRUE);
+            graph.addNode(literal);
+            graph.addNode(literal.getNegation());
+        }
+
+        for (Clause clause : clauses) {
+            Map<Literal, Literal> clauseEdges = clause.get2SATGraphEdges();
+            clauseEdges.forEach(graph::addEdge);
+        }
+
+        return graph;
     }
 
     @Override

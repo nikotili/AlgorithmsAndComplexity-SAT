@@ -1,12 +1,12 @@
 package alg.sat;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.StringJoiner;
+import alg.sat.graph.Edge;
+
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Clause implements Valuable {
-    private final Collection<Literal> literals;
+    private final List<Literal> literals;
 
     public Clause() {
         literals = new ArrayList<>();
@@ -43,13 +43,30 @@ public class Clause implements Valuable {
         return true;
     }
 
-    public static Clause from(Literal[] literals, int[] clause) {
+    static Clause from(Literal[] literals, int[] clause) {
         Clause clauseObj = new Clause();
         for (int literal : clause) {
-            Literal literalObj = literal < 0 ? literals[-literal - 1].negation() : literals[literal - 1];
+            Literal literalObj = literal < 0 ? literals[-literal - 1].getNegation() : literals[literal - 1];
             clauseObj.addLiteral(literalObj);
         }
         return clauseObj;
+    }
+
+    public Collection<Literal> getLiterals() {
+        return literals;
+    }
+
+
+    public Map<Literal, Literal> get2SATGraphEdges() {
+        Map<Literal, Literal> edges = new HashMap<>();
+
+        Literal literal1 = literals.get(0);
+        Literal literal2 = literals.get(1);
+
+        edges.put(literal1.negation, literal2);
+        edges.put(literal1, literal2.negation);
+
+        return edges;
     }
 
     @Override

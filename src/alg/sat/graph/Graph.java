@@ -1,18 +1,27 @@
 package alg.sat.graph;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.function.Supplier;
+import java.util.*;
 
-public class Graph {
-    private Collection<Vertex> vertices;
+public class Graph<N> {
+    private Collection<N> nodes;
+    private Map<N, Collection<N>> map;
 
     public Graph() {
-        this.vertices = new HashSet<>();
+        this.nodes = new HashSet<>();
+        this.map = new HashMap<>();
     }
 
-    public void addVertex(Vertex vertex) {
-        vertices.add(vertex);
+
+    public void addNode(N node) {
+        nodes.add(node);
+        map.putIfAbsent(node, new HashSet<>());
+    }
+
+    public void addEdge(N node, N adjNode) {
+        map.get(node).add(adjNode);
+    }
+
+    public void addEdges(N from, Collection<N> adjList) {
+        map.get(from).addAll(adjList);
     }
 }
