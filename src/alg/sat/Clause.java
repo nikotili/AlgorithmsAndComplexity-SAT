@@ -63,8 +63,8 @@ public class Clause implements Valuable {
         Literal literal1 = literals.get(0);
         Literal literal2 = literals.get(1);
 
-        edges.put(literal1.negation, literal2);
-        edges.put(literal1, literal2.negation);
+        edges.put(literal1.getNegation(), literal2);
+        edges.put(literal2.getNegation(), literal1);
 
         return edges;
     }
