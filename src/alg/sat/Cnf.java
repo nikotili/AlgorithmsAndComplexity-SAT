@@ -67,7 +67,7 @@ public class Cnf implements Valuable {
 
         clauses.stream()
                 .map(Clause::get2SATGraphEdges)
-                .forEach(map -> map.forEach(graph::addEdge));
+                .forEach(graph::addEdges);
 
         return graph;
     }

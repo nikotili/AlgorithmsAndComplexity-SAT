@@ -7,7 +7,7 @@ public class Graph<N> {
     private Map<N, Set<N>> map;
 
     public Graph() {
-        this.nodes = new LinkedHashSet<>();
+        this.nodes = new HashSet<>();
         this.map = new HashMap<>();
     }
 
@@ -24,8 +24,8 @@ public class Graph<N> {
         map.get(u).add(v);
     }
 
-    public void addEdges(N from, Collection<N> adjList) {
-        map.get(from).addAll(adjList);
+    public void addEdges(Map<N, N> edges) {
+        edges.forEach(this::addEdge);
     }
 
     private Set<N> visited;
@@ -76,7 +76,6 @@ public class Graph<N> {
         return explored;
     }
 
-
     public Graph<N> createReverse() {
         Graph<N> reversedGraph = new Graph<>();
         this.nodes.forEach(reversedGraph::addNode);
@@ -86,8 +85,7 @@ public class Graph<N> {
         return reversedGraph;
     }
 
-    public Map<Integer, Set<N>> SCCs() {
-
+    public Map<Integer, Set<N>> sCCs() {
         Graph<N> reverse = this.createReverse();
         reverse.dfs();
         N[] reversePostVisit = reverse.getPostVisit();
@@ -134,7 +132,7 @@ public class Graph<N> {
         graph.addEdge("K", "L");
         graph.addEdge("L", "J");
 
-        System.out.println(graph.SCCs());
+        System.out.println(graph.sCCs());
 
     }
 }
