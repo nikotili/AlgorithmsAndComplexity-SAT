@@ -36,24 +36,8 @@ public class Main {
 
 //        Boolean[] assignment = new Boolean[] {Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, Boolean.TRUE};
 
-        Graph<Literal> literalGraph = Cnf.from(formula, Support.generateDefaultAssignment(4)).to2SATGraph();
 
-        Map<Integer, Set<Literal>> sCCs = literalGraph.sCCs();
-        Collection<Literal> assigned = new HashSet<>();
-        for (Set<Literal> sCC : sCCs.values()) {
-            for (Literal literal : sCC) {
-                if (!assigned.contains(literal)) {
-                    literal.setValue(true);
-                    assigned.add(literal);
-                }
-                if (!assigned.contains(literal.getNegation())) {
-                    literal.getNegation().setValue(false);
-                    assigned.add(literal.getNegation());
-                }
-            }
-        }
-
-        System.out.println(assigned);
+        System.out.println(Cnf.from(formula, 4).solve2SAT());
 
     }
 

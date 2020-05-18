@@ -11,8 +11,8 @@ public class Graph<N> {
         this.map = new HashMap<>();
     }
 
-    public void setNodes(Set<N> nodes) {
-        this.nodes = nodes;
+    public int getNumOfNodes() {
+        return nodes.size();
     }
 
     public void addNode(N node) {
@@ -76,7 +76,7 @@ public class Graph<N> {
         return explored;
     }
 
-    public Graph<N> createReverse() {
+    public Graph<N> reverse() {
         Graph<N> reversedGraph = new Graph<>();
         this.nodes.forEach(reversedGraph::addNode);
 
@@ -86,14 +86,14 @@ public class Graph<N> {
     }
 
     public Map<Integer, Set<N>> sCCs() {
-        Graph<N> reverse = this.createReverse();
-        reverse.dfs();
-        N[] reversePostVisit = reverse.getPostVisit();
+        Graph<N> reversedGraph = this.reverse();
+        reversedGraph.dfs();
+        N[] reversedPostVisit = reversedGraph.getPostVisit();
 
         this.nodes = new LinkedHashSet<>();
-        for (int i = reversePostVisit.length - 1; i >= 0; i--) {
-            if (reversePostVisit[i] != null)
-                this.addNode(reversePostVisit[i]);
+        for (int i = reversedPostVisit.length - 1; i >= 0; i--) {
+            if (reversedPostVisit[i] != null)
+                this.addNode(reversedPostVisit[i]);
         }
 
         return this.dfs();

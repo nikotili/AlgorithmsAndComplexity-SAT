@@ -56,7 +56,10 @@ public class Cnf implements Valuable {
         return from(formula, Support.generateDefaultAssignment(numOfVars));
     }
 
-    public Graph<Literal> to2SATGraph() {
+    private Graph<Literal> twoSATGraph() throws IllegalStateException {
+        if (!is2SAT())
+            throw new IllegalStateException("Not a 2-SAT");
+
         Graph<Literal> graph = new Graph<>();
 
         for (int i = 0; i < numOfVars; i++) {
@@ -72,11 +75,50 @@ public class Cnf implements Valuable {
         return graph;
     }
 
+    public Collection<Literal> solve2SAT() {
+        Graph<Literal> literalGraph = this.twoSATGraph();
+        Collection<Set<Literal>> sCCs = literalGraph.sCCs().values();
+        Collection<Literal> solution = new HashSet<>(numOfVars);
+        for (Set<Literal> sCC : sCCs) {
+            for (Literal literal : sCC) {
+                Literal negation = literal.getNegation();
+
+                //todo maybe other method
+                if (sCC.contains(negation))
+                    throw new NoSolutionException("2-SAT has no solution");
+
+                if (!solution.contains(literal)) {
+                    literal.setValue(Boolean.TRUE);
+
+                    if (literal.isPositiveLiteral())
+                        solution.add(literal);
+                }
+                if (!solution.contains(negation)) {
+                    negation.setValue(Boolean.FALSE);
+
+                    if (negation.isPositiveLiteral())
+                        solution.add(negation);
+                }
+                if (solution.size() == numOfVars)
+                    return solution;
+            }
+        }
+
+        return solution;
+    }
+
     @Override
     public String toString() {
         return this.clauses
                 .stream()
                 .map(Clause::toString)
                 .collect(Collectors.joining(" and "));
+    }
+
+
+    private static class NoSolutionException extends RuntimeException {
+        public NoSolutionException(String message) {
+            super(message);
+        }
     }
 }
