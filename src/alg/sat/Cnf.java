@@ -15,7 +15,7 @@ public class Cnf implements Valuable {
         clauses = new ArrayList<>();
     }
 
-    public Boolean getValue() {
+    public boolean getValue() {
         return clauses
                 .stream()
                 .noneMatch(Clause::isFalse);
@@ -34,12 +34,12 @@ public class Cnf implements Valuable {
     }
 
 
-    public static Cnf from(int[][] formula, Boolean[] assignment) {
+    public static Cnf from(int[][] formula, boolean[] assignment) {
         int length = assignment.length;
 
         Literal[] literals = new Literal[length];
         for (int i = 0; i < length; i++) {
-            literals[i] = new Literal(String.valueOf(i + 1));
+            literals[i] = new Literal(String.valueOf(i + 1), assignment[i]);
         }
 
         Cnf cnf = new Cnf(length);
@@ -56,6 +56,7 @@ public class Cnf implements Valuable {
         return from(formula, Support.generateDefaultAssignment(numOfVars));
     }
 
+    //todo check if ok after using primitive booleans
     private Graph<Literal> twoSATGraph() throws IllegalStateException {
         if (!is2SAT())
             throw new IllegalStateException("Not a 2-SAT");
@@ -63,7 +64,7 @@ public class Cnf implements Valuable {
         Graph<Literal> graph = new Graph<>();
 
         for (int i = 0; i < numOfVars; i++) {
-            Literal literal = new Literal(String.valueOf(i + 1));
+            Literal literal = new Literal(String.valueOf(i + 1), false);
             graph.addNode(literal);
             graph.addNode(literal.getNegation());
         }

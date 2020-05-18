@@ -8,8 +8,10 @@ public class Support {
         throw new IllegalAccessException();
     }
 
-    public static Boolean[] generateDefaultAssignment(int numOfVars) {
-        return new Boolean[numOfVars];
+    public static boolean[] generateDefaultAssignment(int numOfVars) {
+        boolean[] booleans = new boolean[numOfVars];
+        Arrays.fill(booleans, false);
+        return booleans;
     }
 
 }

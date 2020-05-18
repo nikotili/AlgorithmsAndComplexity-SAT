@@ -4,10 +4,10 @@ import java.util.Objects;
 
 public class Literal implements Valuable {
     private final String name;
-    private Boolean value;
+    private boolean value;
     private Literal negation;
 
-    public Literal(String name) {
+    public Literal(String name, boolean value) {
         this.name = name;
         this.value = value;
     }
@@ -16,7 +16,7 @@ public class Literal implements Valuable {
         return name;
     }
 
-    public Boolean getValue() {
+    public boolean getValue() {
         return value;
     }
 
@@ -59,7 +59,7 @@ public class Literal implements Valuable {
 
     private static class LiteralNegation extends Literal {
         public LiteralNegation(Literal literal) {
-            super("~" + literal.getName());
+            super("~" + literal.getName(), !literal.value);
         }
     }
 }

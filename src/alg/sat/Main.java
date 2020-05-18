@@ -41,21 +41,12 @@ public class Main {
 
     }
 
-    //todo needs optimization
     private static void solveGeneralSAT(int[][] formula, int numOfVars) {
         double numOfCases = Math.pow(2, numOfVars);
+        Generator generator = new Generator(numOfVars);
 
-        for (int i = 0; i < numOfCases; i++) {
-            Boolean[] varsToBe = Arrays.stream(Integer.toBinaryString(i)
-                    .split(""))
-                    .map(s -> s.equals("1"))
-                    .toArray(Boolean[]::new);
-
-            Boolean[] vars = new Boolean[numOfVars];
-
-            System.arraycopy(varsToBe, 0, vars, vars.length - varsToBe.length, varsToBe.length);
-            Arrays.fill(vars, 0, vars.length - varsToBe.length, false);
-
+        while (generator.hasNext()) {
+            boolean[] vars = generator.next();
             Cnf cnf = Cnf.from(formula, vars);
             System.out.println(Arrays.toString(vars) + ": " + cnf.getValue());
         }
