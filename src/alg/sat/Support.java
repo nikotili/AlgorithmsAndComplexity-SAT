@@ -1,6 +1,5 @@
 package alg.sat;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 
 public class Support {
@@ -10,9 +9,7 @@ public class Support {
     }
 
     public static Boolean[] generateDefaultAssignment(int numOfVars) {
-        Boolean[] booleans = new Boolean[numOfVars];
-        Arrays.fill(booleans, Boolean.FALSE);
-        return booleans;
+        return new Boolean[numOfVars];
     }
 
 }

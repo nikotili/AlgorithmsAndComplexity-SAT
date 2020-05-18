@@ -15,7 +15,7 @@ public class Clause implements Valuable {
         return this;
     }
 
-    public boolean getValue() {
+    public Boolean getValue() {
         return literals.stream()
                 .anyMatch(Literal::getValue);
     }
@@ -24,7 +24,7 @@ public class Clause implements Valuable {
         return literals.size() > 2;
     }
 
-    public boolean isFalse() {
+    public Boolean isFalse() {
         return !getValue();
     }
 

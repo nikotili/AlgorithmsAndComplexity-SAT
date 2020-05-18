@@ -15,7 +15,7 @@ public class Cnf implements Valuable {
         clauses = new ArrayList<>();
     }
 
-    public boolean getValue() {
+    public Boolean getValue() {
         return clauses
                 .stream()
                 .noneMatch(Clause::isFalse);
@@ -39,7 +39,7 @@ public class Cnf implements Valuable {
 
         Literal[] literals = new Literal[length];
         for (int i = 0; i < length; i++) {
-            literals[i] = new Literal(String.valueOf(i + 1), assignment[i]);
+            literals[i] = new Literal(String.valueOf(i + 1));
         }
 
         Cnf cnf = new Cnf(length);
@@ -52,7 +52,7 @@ public class Cnf implements Valuable {
         return cnf;
     }
 
-    public static Cnf defaultFrom(int[][] formula, int numOfVars) {
+    public static Cnf from(int[][] formula, int numOfVars) {
         return from(formula, Support.generateDefaultAssignment(numOfVars));
     }
 
@@ -60,7 +60,7 @@ public class Cnf implements Valuable {
         Graph<Literal> graph = new Graph<>();
 
         for (int i = 0; i < numOfVars; i++) {
-            Literal literal = new Literal(String.valueOf(i + 1), Boolean.TRUE);
+            Literal literal = new Literal(String.valueOf(i + 1));
             graph.addNode(literal);
             graph.addNode(literal.getNegation());
         }

@@ -4,10 +4,10 @@ import java.util.Objects;
 
 public class Literal implements Valuable {
     private final String name;
-    private final boolean value;
-    protected Literal negation;
+    private Boolean value;
+    private Literal negation;
 
-    public Literal(String name, boolean value) {
+    public Literal(String name) {
         this.name = name;
         this.value = value;
     }
@@ -16,21 +16,17 @@ public class Literal implements Valuable {
         return name;
     }
 
-    public boolean getValue() {
+    public Boolean getValue() {
         return value;
     }
 
-    public Literal or(Literal that) {
-        String name = this.name + " or " + that.name;
-        boolean value = this.value || that.value;
-        return new Literal(name, value);
+    public void setValue(boolean value) {
+        this.value = value;
     }
 
-    public void initNegation() {
-        if (this.negation == null) {
-            this.negation = new LiteralNegation(this);
-            this.negation.negation = this;
-        }
+    private void initNegation() {
+        this.negation = new LiteralNegation(this);
+        this.negation.negation = this;
     }
 
     public Literal getNegation() {
@@ -45,7 +41,7 @@ public class Literal implements Valuable {
 
     @Override
     public String toString() {
-        return name;
+        return name + ": " + value;
     }
 
     @Override
@@ -59,5 +55,11 @@ public class Literal implements Valuable {
     @Override
     public int hashCode() {
         return name.hashCode();
+    }
+
+    private static class LiteralNegation extends Literal {
+        public LiteralNegation(Literal literal) {
+            super("~" + literal.getName());
+        }
     }
 }
