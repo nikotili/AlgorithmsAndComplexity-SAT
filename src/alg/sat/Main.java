@@ -35,28 +35,27 @@ public class Main {
                 {-1, 4}
         };
 
-        Boolean[] assignment = new Boolean[] {Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, Boolean.TRUE};
+//        Boolean[] assignment = new Boolean[] {Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, Boolean.TRUE};
+//
+//        Graph<Literal> literalGraph = Cnf.from(formula, Support.generateDefaultAssignment(4)).to2SATGraph();
+//        Graph<Literal> reverse = literalGraph.createReverse();
+//        reverse.dfs();
+//        Map<Literal, Integer> reversePostVisit = reverse.getPostVisit();
+//        Integer reverseClock = reverse.getClock();
+//        Literal[] literals = new Literal[reverseClock];
+//
+//        reversePostVisit.forEach((literal, postValue) -> literals[postValue] = literal);
+//        literalGraph = new Graph<>();
+//        for (int i = literals.length - 1; i >= 0; i--) {
+//            if (literals[i] != null)
+//                literalGraph.addNode(literals[i]);
+//        }
+//
+//
+//        System.out.println(literalGraph.dfs());
+//
+//        literalGraph = Cnf.from(formula, Support.generateDefaultAssignment(4)).to2SATGraph();
 
-        Graph<Literal> literalGraph = Cnf.from(formula, Support.generateDefaultAssignment(4)).to2SATGraph();
-        Graph<Literal> reverse = literalGraph.createReverse();
-        reverse.dfs();
-        Map<Literal, Integer> reversePostVisit = reverse.getPostVisit();
-        Integer reverseClock = reverse.getClock();
-        Literal[] literals = new Literal[reverseClock];
-
-        reversePostVisit.forEach((literal, postValue) -> literals[postValue] = literal);
-        literalGraph = new Graph<>();
-        for (int i = literals.length - 1; i >= 0; i--) {
-            if (literals[i] != null)
-                literalGraph.addNode(literals[i]);
-        }
-
-
-        System.out.println(literalGraph.dfs());
-
-        literalGraph = Cnf.from(formula, Support.generateDefaultAssignment(4)).to2SATGraph();
-
-        System.out.println(literalGraph.SCCs());
     }
 
     //todo needs optimization

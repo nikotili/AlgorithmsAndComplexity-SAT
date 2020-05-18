@@ -1,7 +1,5 @@
 package alg.sat.graph;
 
-import alg.sat.Literal;
-
 import java.util.*;
 
 public class Graph<N> {
@@ -31,12 +29,11 @@ public class Graph<N> {
     }
 
     private Set<N> visited;
-    //todo with array
-    private Map<N, Integer> preVisit;
-    private Map<N, Integer> postVisit;
+    private N[] preVisit;
+    private N[] postVisit;
     private Integer clock;
 
-    public Map<N, Integer> getPostVisit() {
+    public N[] getPostVisit() {
         return postVisit;
     }
 
@@ -46,8 +43,9 @@ public class Graph<N> {
 
     public Map<Integer, Set<N>> dfs() {
         clock = 1;
-        preVisit = new HashMap<>();
-        postVisit = new HashMap<>();
+        int prePostSize = nodes.size() * 2 + 1;
+        preVisit = (N[]) new Object[prePostSize];
+        postVisit = (N[]) new Object[prePostSize];
         visited = new HashSet<>();
         Map<Integer, Set<N>> stronglyConnectedComponents = new HashMap<>();
         Integer scc = 1;
@@ -66,20 +64,19 @@ public class Graph<N> {
         Set<N> explored = new HashSet<>();
         explored.add(node);
         visited.add(node);
-        preVisit.put(node, clock++);
+        preVisit[clock++] = node;
 
         map.get(node)
                 .stream()
                 .filter(v -> !visited.contains(v))
                 .forEach(v -> explored.addAll(explore(v)));
 
-        postVisit.put(node, clock++);
+        postVisit[clock++] = node;
 
         return explored;
     }
 
 
-    //todo maybe clone
     public Graph<N> createReverse() {
         Graph<N> reversedGraph = new Graph<>();
         this.nodes.forEach(reversedGraph::addNode);
@@ -93,17 +90,12 @@ public class Graph<N> {
 
         Graph<N> reverse = this.createReverse();
         reverse.dfs();
-        Map<N, Integer> reversePostVisit = reverse.getPostVisit();
-        Integer reverseClock = reverse.getClock();
-        N[] nodesPrime = (N[]) new Object[reverseClock];
-
-        reversePostVisit.forEach((literal, postValue) -> nodesPrime[postValue] = literal);
+        N[] reversePostVisit = reverse.getPostVisit();
 
         this.nodes = new LinkedHashSet<>();
-        this.map = new HashMap<>();
-        for (int i = nodesPrime.length - 1; i >= 0; i--) {
-            if (nodesPrime[i] != null)
-                this.addNode(nodesPrime[i]);
+        for (int i = reversePostVisit.length - 1; i >= 0; i--) {
+            if (reversePostVisit[i] != null)
+                this.addNode(reversePostVisit[i]);
         }
 
         return this.dfs();
@@ -117,28 +109,32 @@ public class Graph<N> {
         graph.addNode("D");
         graph.addNode("E");
         graph.addNode("F");
+        graph.addNode("G");
+        graph.addNode("H");
+        graph.addNode("I");
+        graph.addNode("J");
+        graph.addNode("K");
+        graph.addNode("L");
 
         graph.addEdge("A", "B");
-        graph.addEdge("B", "A");
         graph.addEdge("B", "C");
-        graph.addEdge("C", "A");
-        graph.addEdge("C", "D");
-        graph.addEdge("D", "E");
+        graph.addEdge("B", "D");
+        graph.addEdge("B", "E");
+        graph.addEdge("C", "F");
+        graph.addEdge("E", "B");
         graph.addEdge("E", "F");
-        graph.addEdge("F", "D");
+        graph.addEdge("E", "G");
+        graph.addEdge("F", "C");
+        graph.addEdge("F", "H");
+        graph.addEdge("G", "H");
+        graph.addEdge("G", "J");
+        graph.addEdge("H", "K");
+        graph.addEdge("I", "G");
+        graph.addEdge("J", "I");
+        graph.addEdge("K", "L");
+        graph.addEdge("L", "J");
 
-
-//        Graph<String> reverse = graph.createReverse();
-        Graph<String> reverse = graph.createReverse();
-        System.out.println(reverse.dfs());
-        System.out.println(reverse.preVisit);
-        System.out.println(reverse.postVisit);
+        System.out.println(graph.SCCs());
 
     }
-
-//    public static <N> Map<Integer, Set<N>> getSCCs(Graph<N> graph) {
-//        return graph
-////                .createReverse()
-//                .dfs();
-//    }
 }
