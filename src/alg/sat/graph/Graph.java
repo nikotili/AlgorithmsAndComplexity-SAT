@@ -31,6 +31,7 @@ public class Graph<N> {
     }
 
     private Set<N> visited;
+    //todo with array
     private Map<N, Integer> preVisit;
     private Map<N, Integer> postVisit;
     private Integer clock;
@@ -53,7 +54,6 @@ public class Graph<N> {
 
         for (N node : nodes) {
             if (!visited.contains(node)) {
-                visited.add(node);
                 stronglyConnectedComponents.put(scc, explore(node));
                 scc++;
             }
@@ -63,24 +63,17 @@ public class Graph<N> {
     }
 
     private Set<N> explore(N node) {
-
-        Deque<N> toBeExplored = new LinkedList<>();
-        toBeExplored.add(node);
         Set<N> explored = new HashSet<>();
+        explored.add(node);
+        visited.add(node);
+        preVisit.put(node, clock++);
 
-        while (!toBeExplored.isEmpty()) {
-            N n = toBeExplored.poll();
-            preVisit.put(n, clock++);
-            if (!explored.contains(n)) {
-                explored.add(n);
-                visited.add(n);
-                map.get(n)
-                        .stream()
-                        .filter(n1 -> !explored.contains(n1) && !visited.contains(n1))
-                        .forEach(toBeExplored::push);
-            }
-            postVisit.put(n, clock++);
-        }
+        map.get(node)
+                .stream()
+                .filter(v -> !visited.contains(v))
+                .forEach(v -> explored.addAll(explore(v)));
+
+        postVisit.put(node, clock++);
 
         return explored;
     }
@@ -114,6 +107,33 @@ public class Graph<N> {
         }
 
         return this.dfs();
+    }
+
+    public static void main(String[] args) {
+        Graph<String> graph = new Graph<>();
+        graph.addNode("A");
+        graph.addNode("B");
+        graph.addNode("C");
+        graph.addNode("D");
+        graph.addNode("E");
+        graph.addNode("F");
+
+        graph.addEdge("A", "B");
+        graph.addEdge("B", "A");
+        graph.addEdge("B", "C");
+        graph.addEdge("C", "A");
+        graph.addEdge("C", "D");
+        graph.addEdge("D", "E");
+        graph.addEdge("E", "F");
+        graph.addEdge("F", "D");
+
+
+//        Graph<String> reverse = graph.createReverse();
+        Graph<String> reverse = graph.createReverse();
+        System.out.println(reverse.dfs());
+        System.out.println(reverse.preVisit);
+        System.out.println(reverse.postVisit);
+
     }
 
 //    public static <N> Map<Integer, Set<N>> getSCCs(Graph<N> graph) {
