@@ -2,24 +2,22 @@ package alg.sat;
 
 import java.util.Arrays;
 
-//todo test
 public class Generator {
 
     private final boolean[] arr;
     private final boolean ONE = true;
     private final boolean ZERO = false;
-    private int index;
-    private final int bound;
+    private final boolean[] bound;
 
     public Generator(int n) {
-        this.bound = n * n - 1;
+
         arr = new boolean[n];
-        Arrays.fill(arr, Boolean.FALSE);
-        index = 0;
+        bound = new boolean[n];
+        Arrays.fill(arr, false);
+        Arrays.fill(bound, true);
     }
 
     public boolean[] next() {
-        index++;
         increment(arr.length -1, ONE, ZERO);
         return arr;
     }
@@ -41,11 +39,11 @@ public class Generator {
     }
 
     public boolean hasNext() {
-        return index < bound;
+        return !Arrays.equals(arr, bound);
     }
 
     public static void main(String[] args) {
-        Generator generator = new Generator(4);
+        Generator generator = new Generator(20);
 
         while (generator.hasNext()) {
             System.out.println(Arrays.toString(generator.next()));
