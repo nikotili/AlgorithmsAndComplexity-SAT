@@ -45,7 +45,11 @@ public class HornImplication implements Valuable {
     }
 
     public boolean isImplication() {
-        return rightHandSide != null;
+        return !isPureNegativeClause();
+    }
+
+    public boolean isPureNegativeClause() {
+        return rightHandSide == null;
     }
 
     @Override

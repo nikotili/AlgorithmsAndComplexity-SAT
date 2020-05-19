@@ -57,7 +57,6 @@ public class Cnf implements Valuable {
         return from(formula, Support.generateDefaultAssignment(numOfVars));
     }
 
-    //todo check if ok after using primitive booleans
     private Graph<Literal> twoSATGraph() throws IllegalStateException {
         if (!is2SAT())
             throw new IllegalStateException("Not a 2-SAT");
@@ -85,7 +84,6 @@ public class Cnf implements Valuable {
             for (Literal literal : sCC) {
                 Literal negation = literal.getNegation();
 
-                //todo maybe other method
                 if (sCC.contains(negation))
                     throw new NoSolutionException("2-SAT has no solution");
 
@@ -109,6 +107,7 @@ public class Cnf implements Valuable {
         return solution;
     }
 
+    //todo optimization
     public Collection<Literal> solveHornSAT() {
         Set<HornImplication> hornImplications = clauses.stream()
                 .map(Clause::hornImplication)
@@ -126,7 +125,6 @@ public class Cnf implements Valuable {
         if (hornImplications.stream().anyMatch(HornImplication::toBeSatisfied))
             throw new NoSolutionException("Horn-SAT has no solution");
 
-        System.out.println(hornImplications);
         return null;
     }
 
