@@ -71,7 +71,7 @@ public class Cnf implements Valuable {
         }
 
         clauses.stream()
-                .map(Clause::get2SATGraphEdges)
+                .map(Clause::twoSATGraphEdges)
                 .forEach(graph::addEdges);
 
         return graph;
@@ -90,13 +90,13 @@ public class Cnf implements Valuable {
                     throw new NoSolutionException("2-SAT has no solution");
 
                 if (!solution.contains(literal)) {
-                    literal.setValue(Boolean.TRUE);
+                    literal.setValue(true);
 
                     if (literal.isPositiveLiteral())
                         solution.add(literal);
                 }
                 if (!solution.contains(negation)) {
-                    negation.setValue(Boolean.FALSE);
+                    negation.setValue(false);
 
                     if (negation.isPositiveLiteral())
                         solution.add(negation);
@@ -107,6 +107,27 @@ public class Cnf implements Valuable {
         }
 
         return solution;
+    }
+
+    public Collection<Literal> solveHornSAT() {
+        Set<HornImplication> hornImplications = clauses.stream()
+                .map(Clause::hornImplication)
+                .collect(Collectors.toSet());
+
+        HornImplication hornImplication;
+        while ((hornImplication = hornImplications.stream()
+                .filter(HornImplication::isImplication)
+                .filter(HornImplication::toBeSatisfied)
+                .findAny()
+                .orElse(null)) != null) {
+            hornImplication.satisfy();
+        }
+
+        if (hornImplications.stream().anyMatch(HornImplication::toBeSatisfied))
+            throw new NoSolutionException("Horn-SAT has no solution");
+
+        System.out.println(hornImplications);
+        return null;
     }
 
     @Override

@@ -14,14 +14,27 @@ public class Main {
                 {-3, 4},
                 {-1, 4}
         };
-        int[][] formula1 = new int[][] {
+
+        int[][] formula1 = new int[][]{
                 {1, -2, -4},
                 {-1, -3},
                 {-2, -3}
         };
 
-//        solveGeneralSAT(formula1, 4);
-        testGeneral();
+        int[][] hornFormula = new int[][]{
+                {-1, -2, -3, -4, -5},
+                {-1, -2, -3, -4},
+                {3},
+                {-3, -5},
+                {-1, -3, -4},
+                {-2, -3, -4, 5},
+                {-3, 4},
+                {-1, -2, -3, -5},
+        };
+
+        solveGeneralSAT(hornFormula, 5);
+//        testGeneral();
+        solveHornSAT(hornFormula, 5);
 //        solveGeneralSAT(formula, 4);
     }
 
@@ -39,6 +52,10 @@ public class Main {
 
         System.out.println(Cnf.from(formula, 4).solve2SAT());
 
+    }
+
+    private static void solveHornSAT(int[][] formula, int numOfVars) {
+        Cnf.from(formula, numOfVars).solveHornSAT();
     }
 
     private static void solveGeneralSAT(int[][] formula, int numOfVars) {

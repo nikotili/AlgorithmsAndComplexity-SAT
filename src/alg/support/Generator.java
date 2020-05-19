@@ -22,7 +22,7 @@ public class Generator {
         return arr;
     }
 
-    private void increment(int currPos, Boolean operand, Boolean reminder) {
+    private void increment(int currPos, boolean operand, boolean reminder) {
         if(arr[currPos] == ONE && operand == ONE) {
             arr[currPos] = ZERO;
             operand = ZERO;

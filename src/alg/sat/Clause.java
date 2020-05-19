@@ -1,18 +1,18 @@
 package alg.sat;
 
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class Clause implements Valuable {
-    private final List<Literal> literals;
+    private  List<Literal> literals;
 
-    public Clause() {
+    private Clause() {
         literals = new ArrayList<>();
     }
 
-    public Clause addLiteral(Literal literal) {
+    public void addLiteral(Literal literal) {
         this.literals.add(literal);
-        return this;
     }
 
     public boolean getValue() {
@@ -24,7 +24,7 @@ public class Clause implements Valuable {
         return literals.size() > 2;
     }
 
-    public Boolean isFalse() {
+    public boolean isFalse() {
         return !getValue();
     }
 
@@ -54,8 +54,14 @@ public class Clause implements Valuable {
         return literals;
     }
 
+    static Clause from(List<Literal> literals) {
+        Clause clause = new Clause();
+        clause.literals = literals;
+        return clause;
+    }
 
-    public Map<Literal, Literal> get2SATGraphEdges() {
+
+    public Map<Literal, Literal> twoSATGraphEdges() {
         Map<Literal, Literal> edges = new HashMap<>();
 
         Literal literal1 = literals.get(0);
@@ -65,6 +71,10 @@ public class Clause implements Valuable {
         edges.put(literal2.getNegation(), literal1);
 
         return edges;
+    }
+
+    public HornImplication hornImplication() {
+        return HornImplication.from(this);
     }
 
     @Override

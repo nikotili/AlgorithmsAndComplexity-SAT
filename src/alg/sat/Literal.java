@@ -36,7 +36,11 @@ public class Literal implements Valuable {
     }
 
     public boolean isPositiveLiteral() {
-        return !(this instanceof LiteralNegation);
+        return !isLiteralNegation();
+    }
+
+    public boolean isLiteralNegation() {
+        return this instanceof LiteralNegation;
     }
 
     @Override
