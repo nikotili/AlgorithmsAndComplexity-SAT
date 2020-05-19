@@ -1,4 +1,4 @@
-package alg.sat.graph;
+package alg.support.graph;
 
 import java.util.*;
 

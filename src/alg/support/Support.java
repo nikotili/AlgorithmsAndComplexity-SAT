@@ -1,4 +1,4 @@
-package alg.sat;
+package alg.support;
 
 import java.util.Arrays;
 

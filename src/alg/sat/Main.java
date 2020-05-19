@@ -1,6 +1,6 @@
 package alg.sat;
 
-import alg.sat.graph.Graph;
+import alg.support.Generator;
 
 import java.util.*;
 

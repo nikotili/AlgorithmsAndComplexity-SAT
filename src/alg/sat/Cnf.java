@@ -1,7 +1,8 @@
 package alg.sat;
 
 
-import alg.sat.graph.Graph;
+import alg.support.Support;
+import alg.support.graph.Graph;
 
 import java.util.*;
 import java.util.stream.Collectors;
