@@ -4,7 +4,7 @@ import java.util.*;
 
 /**
  * Represents an Horn Implication like: (x and y and z) -> w
- * in a form (-x or -y or -z) or w
+ * in the form: (-x or -y or -z) or w.
  */
 public class HornImplication implements Valuable {
     private final Clause leftHandSide;
