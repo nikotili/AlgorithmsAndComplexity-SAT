@@ -34,11 +34,24 @@ public class Cnf implements Valuable {
                 .allMatch(Clause::hasAtMostOnePositiveLiteral);
     }
 
-    public Collection<Literal> distinctPositiveLiterals() {
-        return clauses.stream()
-                .flatMap(clause -> clause.getLiterals().stream())
-                .filter(Literal::hasPositiveSign)
-                .collect(Collectors.toSet());
+    public Collection<Literal> variables() {
+        Collection<Literal> variables = new HashSet<>();
+
+        for (Clause clause : clauses) {
+            Collection<Literal> literals = clause.getLiterals();
+            for (Literal literal : literals) {
+                if (literal.hasPositiveSign())
+                    variables.add(literal);
+
+                if (literal.hasNegativeSign())
+                    variables.add(literal.getNegation());
+
+                if (variables.size() == numOfVars)
+                    return variables;
+            }
+        }
+
+        return variables;
     }
 
 
@@ -133,7 +146,7 @@ public class Cnf implements Valuable {
                 .anyMatch(HornImplication::toBeSatisfied))
             throw new NoSolutionException("Horn-SAT has no solution");
 
-        return distinctPositiveLiterals();
+        return variables();
     }
 
     @Override

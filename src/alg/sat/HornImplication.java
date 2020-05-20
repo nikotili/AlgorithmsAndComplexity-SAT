@@ -12,22 +12,26 @@ public class HornImplication implements Valuable {
         this.rightHandSide = rightHandSide;
     }
 
+
+    //todo test
     public static HornImplication from(Clause clause) {
         if (!clause.hasAtMostOnePositiveLiteral())
             throw new IllegalArgumentException("Not a Horn Clause");
 
-        List<Literal> literals = clause.getLiterals()
-                .stream()
-                .filter(Literal::isLiteralNegation)
-                .collect(Collectors.toList());
-        Clause leftHandSide = Clause.from(literals);
+        Collection<Literal> clauseLiterals = clause.getLiterals();
 
+        List<Literal> literalNegations = new ArrayList<>();
+        Literal rightHandSide = null;
 
-        Literal rightHandSide = clause.getLiterals()
-                .stream()
-                .filter(Literal::hasPositiveSign)
-                .findAny()
-                .orElse(null);
+        for (Literal clauseLiteral : clauseLiterals) {
+            if (clauseLiteral.hasNegativeSign()) {
+                literalNegations.add(clauseLiteral);
+            } else {
+                rightHandSide = clauseLiteral;
+            }
+        }
+
+        Clause leftHandSide = Clause.from(literalNegations);
 
         return new HornImplication(leftHandSide, rightHandSide);
     }

@@ -36,10 +36,10 @@ public class Literal implements Valuable {
     }
 
     public boolean hasPositiveSign() {
-        return !isLiteralNegation();
+        return !hasNegativeSign();
     }
 
-    public boolean isLiteralNegation() {
+    public boolean hasNegativeSign() {
         return this instanceof LiteralNegation;
     }
 
