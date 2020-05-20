@@ -2,6 +2,9 @@ package alg.sat;
 
 import java.util.Objects;
 
+/**
+ * Represents a Literal in a {@link Cnf}
+ */
 public class Literal implements Valuable {
     private final String name;
     private boolean value;

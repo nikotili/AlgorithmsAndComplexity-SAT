@@ -14,7 +14,7 @@ public class HornImplication implements Valuable {
 
 
     //todo test
-    public static HornImplication from(Clause clause) {
+    public static HornImplication from(Clause clause) throws IllegalArgumentException {
         if (!clause.hasAtMostOnePositiveLiteral())
             throw new IllegalArgumentException("Not a Horn Clause");
 
