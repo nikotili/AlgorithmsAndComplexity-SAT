@@ -34,6 +34,13 @@ public class Cnf implements Valuable {
                 .allMatch(Clause::hasAtMostOnePositiveLiteral);
     }
 
+    public Collection<Literal> distinctPositiveLiterals() {
+        return clauses.stream()
+                .flatMap(clause -> clause.getLiterals().stream())
+                .filter(Literal::hasPositiveSign)
+                .collect(Collectors.toSet());
+    }
+
 
     public static Cnf from(int[][] formula, boolean[] assignment) {
         int length = assignment.length;
@@ -90,13 +97,13 @@ public class Cnf implements Valuable {
                 if (!solution.contains(literal)) {
                     literal.setValue(true);
 
-                    if (literal.isPositiveLiteral())
+                    if (literal.hasPositiveSign())
                         solution.add(literal);
                 }
                 if (!solution.contains(negation)) {
                     negation.setValue(false);
 
-                    if (negation.isPositiveLiteral())
+                    if (negation.hasPositiveSign())
                         solution.add(negation);
                 }
                 if (solution.size() == numOfVars)
@@ -107,25 +114,26 @@ public class Cnf implements Valuable {
         return solution;
     }
 
-    //todo optimization
     public Collection<Literal> solveHornSAT() {
         Set<HornImplication> hornImplications = clauses.stream()
                 .map(Clause::hornImplication)
                 .collect(Collectors.toSet());
 
-        HornImplication hornImplication;
-        while ((hornImplication = hornImplications.stream()
+        hornImplications.stream()
+                .filter(HornImplication::isSingleton)
+                .forEach(HornImplication::satisfy);
+
+        hornImplications.stream()
                 .filter(HornImplication::isImplication)
                 .filter(HornImplication::toBeSatisfied)
-                .findAny()
-                .orElse(null)) != null) {
-            hornImplication.satisfy();
-        }
+                .forEach(HornImplication::satisfy);
 
-        if (hornImplications.stream().anyMatch(HornImplication::toBeSatisfied))
+        if (hornImplications.stream()
+                .filter(HornImplication::isPureNegativeClause)
+                .anyMatch(HornImplication::toBeSatisfied))
             throw new NoSolutionException("Horn-SAT has no solution");
 
-        return null;
+        return distinctPositiveLiterals();
     }
 
     @Override

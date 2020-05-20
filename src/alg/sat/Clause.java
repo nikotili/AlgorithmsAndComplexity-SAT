@@ -1,7 +1,6 @@
 package alg.sat;
 
 import java.util.*;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class Clause implements Valuable {
@@ -32,7 +31,7 @@ public class Clause implements Valuable {
         int numOfPositiveLiterals = 0;
 
         for (Literal literal : literals) {
-            if (literal.isPositiveLiteral()) {
+            if (literal.hasPositiveSign()) {
                 numOfPositiveLiterals++;
                 if (numOfPositiveLiterals > 1)
                     return false;

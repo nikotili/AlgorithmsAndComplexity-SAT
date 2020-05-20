@@ -17,7 +17,8 @@ public class App {
     }
 
     public static void main(String[] args) {
-        new App().start(args);
+        misc();
+//        new App().start(args);
     }
 
     //todo test menu
@@ -131,6 +132,15 @@ public class App {
                 {-1, -2, -3, -5},
         };
 
+        int[][] f = new int[][] {
+                {1, -2},
+                {2}
+        };
+
+
+        Cnf from = Cnf.from(f, 2);
+        System.out.println(from.solveHornSAT());
+        System.out.println(from.getValue());
 //        solveGeneralSAT(hornFormula, 5);
 //        testGeneral();
 //        solveHornSAT(hornFormula, 5);

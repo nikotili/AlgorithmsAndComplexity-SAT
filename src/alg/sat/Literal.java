@@ -35,7 +35,7 @@ public class Literal implements Valuable {
         return negation;
     }
 
-    public boolean isPositiveLiteral() {
+    public boolean hasPositiveSign() {
         return !isLiteralNegation();
     }
 

@@ -14,7 +14,7 @@ public class HornImplication implements Valuable {
 
     public static HornImplication from(Clause clause) {
         if (!clause.hasAtMostOnePositiveLiteral())
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Not a Horn Clause");
 
         List<Literal> literals = clause.getLiterals()
                 .stream()
@@ -25,7 +25,7 @@ public class HornImplication implements Valuable {
 
         Literal rightHandSide = clause.getLiterals()
                 .stream()
-                .filter(Literal::isPositiveLiteral)
+                .filter(Literal::hasPositiveSign)
                 .findAny()
                 .orElse(null);
 
@@ -46,6 +46,10 @@ public class HornImplication implements Valuable {
 
     public boolean isImplication() {
         return !isPureNegativeClause();
+    }
+
+    public boolean isSingleton() {
+        return leftHandSide.getLiterals().size() == 0;
     }
 
     public boolean isPureNegativeClause() {
