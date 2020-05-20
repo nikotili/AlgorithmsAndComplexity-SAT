@@ -17,8 +17,7 @@ public class App {
     }
 
     public static void main(String[] args) {
-        misc();
-//        new App().start(args);
+        testGeneral();
     }
 
     //todo test menu
@@ -177,7 +176,9 @@ public class App {
 //        Boolean[] assignment = new Boolean[] {Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, Boolean.TRUE};
 
 
-        System.out.println(Cnf.from(formula, 4).solve2SAT());
+        Cnf from = Cnf.from(formula, 4);
+        System.out.println(from.solve2SAT());
+        System.out.println(from.getValue());
 
     }
 

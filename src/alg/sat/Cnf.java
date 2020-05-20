@@ -77,14 +77,15 @@ public class Cnf implements Valuable {
         return from(formula, Support.generateDefaultAssignment(numOfVars));
     }
 
+    //todo test
     private Graph<Literal> twoSATGraph() throws IllegalStateException {
         if (!is2SAT())
             throw new IllegalStateException("Not a 2-SAT");
 
         Graph<Literal> graph = new Graph<>();
+        Collection<Literal> variables = this.variables();
 
-        for (int i = 0; i < numOfVars; i++) {
-            Literal literal = new Literal(String.valueOf(i + 1), false);
+        for (Literal literal: variables) {
             graph.addNode(literal);
             graph.addNode(literal.getNegation());
         }
