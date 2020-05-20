@@ -13,6 +13,13 @@ public class HornImplication implements Valuable {
 
 
     //todo test
+    /**
+     * Creates a horn-implication representation of a clause.
+     * The method throws an exception if the clause has more than one positive literal.
+     * @return {@link HornImplication} representing the instance
+     * @throws IllegalArgumentException if the passed {@link Clause} has more than one
+     * positive literal.
+     */
     public static HornImplication from(Clause clause) throws IllegalArgumentException {
         if (!clause.hasAtMostOnePositiveLiteral())
             throw new IllegalArgumentException("Not a Horn Clause");
@@ -39,6 +46,9 @@ public class HornImplication implements Valuable {
         return !value();
     }
 
+    /**
+     * Satisfies the implication by setting the RHS to true.
+     */
     public void satisfy() {
         if (value())
             return;
@@ -47,18 +57,39 @@ public class HornImplication implements Valuable {
         rightHandSide.getNegation().setValue(false);
     }
 
-    public boolean isImplication() {
+    /**
+     * Indicates if the implication has literals in both sides
+     * @return {@code true} if the implication is regular,
+     * {@code false} otherwise.
+     */
+    public boolean isRegularImplication() {
         return !isPureNegativeClause();
     }
 
+
+    /**
+     * Indicates if the implication has no literals in its LHS
+     * @return {@code true} if the implication is a singleton,
+     * {@code false} otherwise.
+     */
     public boolean isSingleton() {
         return leftHandSide.getLiterals().size() == 0;
     }
 
+
+    /**
+     * Indicates if the implication has no literal in its RHS
+     * @return {@code true} if the implication is a pure negative clause,
+     * {@code false} otherwise.
+     */
     public boolean isPureNegativeClause() {
         return rightHandSide == null;
     }
 
+    /**
+     * Returns the result of the implication.
+     * @return
+     */
     @Override
     public boolean value() {
         if (rightHandSide == null)

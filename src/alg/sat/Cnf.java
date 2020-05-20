@@ -183,7 +183,7 @@ public class Cnf implements Valuable {
                 .forEach(HornImplication::satisfy);
 
         hornImplications.stream()
-                .filter(HornImplication::isImplication)
+                .filter(HornImplication::isRegularImplication)
                 .filter(HornImplication::toBeSatisfied)
                 .forEach(HornImplication::satisfy);
 
