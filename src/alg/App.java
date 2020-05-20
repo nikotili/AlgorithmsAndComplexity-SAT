@@ -139,7 +139,7 @@ public class App {
 
         Cnf from = Cnf.from(f, 2);
         System.out.println(from.solveHornSAT());
-        System.out.println(from.getValue());
+        System.out.println(from.value());
 //        solveGeneralSAT(hornFormula, 5);
 //        testGeneral();
 //        solveHornSAT(hornFormula, 5);
@@ -160,7 +160,7 @@ public class App {
             }
         }
 
-        boolean isSatisfied = Cnf.from(formulaFromFile.getFormula(), assignment).getValue();
+        boolean isSatisfied = Cnf.from(formulaFromFile.getFormula(), assignment).value();
         System.out.printf("Formula is %s satisfied!\n\n", isSatisfied ? "" : "not");
     }
 
@@ -178,7 +178,7 @@ public class App {
 
         Cnf from = Cnf.from(formula, 4);
         System.out.println(from.solve2SAT());
-        System.out.println(from.getValue());
+        System.out.println(from.value());
 
     }
 
@@ -192,7 +192,7 @@ public class App {
         int numOfVars = formulaFromFile.getNumOfVariables();
         boolean[] defaultVars = generateDefaultAssignment(numOfVars);
 
-        boolean isSatisfied = Cnf.from(formula, defaultVars).getValue();
+        boolean isSatisfied = Cnf.from(formula, defaultVars).value();
         if (isSatisfied) {
             System.out.println(Arrays.toString(defaultVars));
             return;
@@ -203,7 +203,7 @@ public class App {
         while (generator.hasNext()) {
             boolean[] vars = generator.next();
             Cnf cnf = Cnf.from(formula, vars);
-            boolean value = cnf.getValue();
+            boolean value = cnf.value();
             if (value) {
                 System.out.println(Arrays.toString(vars));
                 return;

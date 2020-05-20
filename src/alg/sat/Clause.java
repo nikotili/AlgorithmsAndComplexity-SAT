@@ -14,9 +14,9 @@ public class Clause implements Valuable {
         this.literals.add(literal);
     }
 
-    public boolean getValue() {
+    public boolean value() {
         return literals.stream()
-                .anyMatch(Literal::getValue);
+                .anyMatch(Literal::value);
     }
 
     public boolean hasMoreThanTwoLiterals() {
@@ -24,7 +24,7 @@ public class Clause implements Valuable {
     }
 
     public boolean isFalse() {
-        return !getValue();
+        return !value();
     }
 
     public boolean hasAtMostOnePositiveLiteral() {

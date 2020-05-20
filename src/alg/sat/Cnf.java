@@ -19,7 +19,7 @@ public class Cnf implements Valuable {
         clauses = new ArrayList<>();
     }
 
-    public boolean getValue() {
+    public boolean value() {
         return clauses
                 .stream()
                 .noneMatch(Clause::isFalse);

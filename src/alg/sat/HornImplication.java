@@ -1,7 +1,6 @@
 package alg.sat;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class HornImplication implements Valuable {
     private final Clause leftHandSide;
@@ -37,11 +36,11 @@ public class HornImplication implements Valuable {
     }
 
     public boolean toBeSatisfied() {
-        return !getValue();
+        return !value();
     }
 
     public void satisfy() {
-        if (getValue())
+        if (value())
             return;
 
         rightHandSide.setValue(true);
@@ -61,11 +60,11 @@ public class HornImplication implements Valuable {
     }
 
     @Override
-    public boolean getValue() {
+    public boolean value() {
         if (rightHandSide == null)
-            return leftHandSide.getValue();
+            return leftHandSide.value();
 
-        return leftHandSide.getValue() || rightHandSide.getValue();
+        return leftHandSide.value() || rightHandSide.value();
     }
 
     @Override
