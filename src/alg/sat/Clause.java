@@ -3,6 +3,9 @@ package alg.sat;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Represents a clause in a {@link Cnf}
+ */
 public class Clause implements Valuable {
     private  List<Literal> literals;
 
@@ -12,6 +15,10 @@ public class Clause implements Valuable {
 
     public void addLiteral(Literal literal) {
         this.literals.add(literal);
+    }
+
+    public Collection<Literal> getLiterals() {
+        return literals;
     }
 
     public boolean value() {
@@ -40,6 +47,13 @@ public class Clause implements Valuable {
         return true;
     }
 
+
+    /**
+     * Constructs a new clause from a clause represented by an array.
+     * @param literals variables which construct the clause
+     * @param clause represented by an int[]
+     * @return an {@link Clause} object
+     */
     static Clause from(Literal[] literals, int[] clause) {
         Clause clauseObj = new Clause();
         for (int literal : clause) {
@@ -49,18 +63,28 @@ public class Clause implements Valuable {
         return clauseObj;
     }
 
-    public Collection<Literal> getLiterals() {
-        return literals;
-    }
 
+    /**
+     * Constructs a new clause from a {@link List<Literal>}
+     * @param literals to be used
+     * @return an {@link Clause} object
+     */
     static Clause from(List<Literal> literals) {
         Clause clause = new Clause();
         clause.literals = literals;
         return clause;
     }
 
+    /**
+     * Returns the representation of the clause as 2-SAT graph edges.
+     * The method throws an exception if the instance has more than two literals
+     * @return Map containing the edges
+     * @throws IllegalStateException if {@link #hasMoreThanTwoLiterals()}
+     */
+    Map<Literal, Literal> twoSATGraphEdges() throws IllegalStateException {
+        if (hasMoreThanTwoLiterals())
+            throw new IllegalStateException("Clause has more than 2 literals");
 
-    public Map<Literal, Literal> twoSATGraphEdges() {
         Map<Literal, Literal> edges = new HashMap<>();
 
         Literal literal1 = literals.get(0);
@@ -72,7 +96,16 @@ public class Clause implements Valuable {
         return edges;
     }
 
-    public HornImplication hornImplication() {
+    /**
+     * Returns the representation of the clause as a horn implication.
+     * The method throws an exception if the instance has more than one positive literal.
+     * @return {@link HornImplication} representing the instance
+     * @throws IllegalStateException if {@link #hasAtMostOnePositiveLiteral()} is {@code false}
+     */
+    HornImplication hornImplication() throws IllegalStateException {
+        if (!hasAtMostOnePositiveLiteral())
+            throw new IllegalStateException("Clause has more than one positive literal");
+
         return HornImplication.from(this);
     }
 

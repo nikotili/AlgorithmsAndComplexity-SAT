@@ -17,6 +17,7 @@ public class Cnf implements Valuable {
     private Cnf(int numOfVars) {
         this.numOfVars = numOfVars;
         clauses = new ArrayList<>();
+
     }
 
     public boolean value() {
@@ -130,7 +131,6 @@ public class Cnf implements Valuable {
      * @return a {@link Collection} of {@link Literal} which are the variables with their
      * assignments.
      * @throws NoSolutionException if the 2-SAT has no solution
-     * @throws IllegalStateException if the instance is not a 2-SAT
      */
     public Collection<Literal> solve2SAT() throws NoSolutionException {
         Graph<Literal> literalGraph = this.twoSATGraph();
@@ -170,7 +170,6 @@ public class Cnf implements Valuable {
      * @return a {@link Collection} of {@link Literal} which are the variables with their
      * assignments.
      * @throws NoSolutionException if the Horn-SAT has no solution
-     * @throws IllegalStateException if the instance is not a Horn-SAT
      */
     public Collection<Literal> solveHornSAT() throws NoSolutionException {
         if (!this.isHornSAT())
