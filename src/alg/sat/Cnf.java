@@ -188,7 +188,6 @@ public class Cnf implements Valuable {
                 .forEach(HornImplication::satisfy);
 
         if (hornImplications.stream()
-                .filter(HornImplication::isPureNegativeClause)
                 .anyMatch(HornImplication::toBeSatisfied))
             throw new NoSolutionException("Horn-SAT has no solution");
 
