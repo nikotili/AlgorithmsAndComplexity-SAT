@@ -1,6 +1,7 @@
 package alg.sat;
 
 
+import alg.support.NumberIterator;
 import alg.support.Support;
 import alg.support.graph.Graph;
 
@@ -29,7 +30,7 @@ public class Cnf implements Valuable {
     public boolean is2SAT() {
         return clauses
                 .stream()
-                .noneMatch(Clause::hasMoreThanTwoLiterals);
+                .allMatch(Clause::hasTwoLiterals);
     }
 
     public boolean isHornSAT() {
@@ -122,6 +123,26 @@ public class Cnf implements Valuable {
                 .forEach(graph::addEdges);
 
         return graph;
+    }
+
+    public Collection<Literal> solveGeneralSAT() throws NoSolutionException {
+        Collection<Literal> variables = variables();
+
+        if (this.value())
+            return variables;
+
+        NumberIterator numberIterator = new NumberIterator(numOfVars);
+        while (numberIterator.hasNext()) {
+            boolean[] assignment = numberIterator.next();
+            for (Literal variable : variables) {
+                boolean value = assignment[variable.getId() - 1];
+                variable.setValue(value);
+                variable.getNegation().setValue(!value);
+            }
+
+            if (value()) return variables;
+        }
+        throw new NoSolutionException("SAT has no solution");
     }
 
     /**

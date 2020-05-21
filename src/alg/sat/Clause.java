@@ -21,13 +21,17 @@ public class Clause implements Valuable {
         return literals;
     }
 
+    /**
+     * Evaluates the clause
+     * @return {@code true} if any of the literals is true, {@code false} otherwise
+     */
     public boolean value() {
         return literals.stream()
                 .anyMatch(Literal::value);
     }
 
-    public boolean hasMoreThanTwoLiterals() {
-        return literals.size() > 2;
+    public boolean hasTwoLiterals() {
+        return literals.size() == 2;
     }
 
     public boolean isFalse() {
@@ -79,11 +83,11 @@ public class Clause implements Valuable {
      * Returns the representation of the clause as 2-SAT graph edges.
      * The method throws an exception if the instance has more than two literals
      * @return Map containing the edges
-     * @throws IllegalStateException if {@link #hasMoreThanTwoLiterals()}
+     * @throws IllegalStateException if {@link #hasTwoLiterals()} is {@code false}
      */
     Map<Literal, Literal> twoSATGraphEdges() throws IllegalStateException {
-        if (hasMoreThanTwoLiterals())
-            throw new IllegalStateException("Clause has more than 2 literals");
+        if (!hasTwoLiterals())
+            throw new IllegalStateException("Clause has not 2 literals");
 
         Map<Literal, Literal> edges = new HashMap<>();
 

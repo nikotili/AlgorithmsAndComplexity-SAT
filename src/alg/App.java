@@ -2,7 +2,7 @@ package alg;
 
 import alg.sat.Cnf;
 import alg.sat.Literal;
-import alg.support.Generator;
+import alg.support.NumberIterator;
 import alg.support.Support;
 
 import java.util.*;
@@ -17,8 +17,7 @@ public class App {
     }
 
     public static void main(String[] args) {
-//        testGeneral();
-        misc();
+        new App().start(args);
     }
 
     //todo test menu
@@ -27,45 +26,40 @@ public class App {
         System.out.print("Enter the path of the file containing the formula: ");
         String path = scanner.nextLine();
         FormulaFromFile formulaFromFile = Support.extractFormulaFromFile(path);
-        while (true) {
-            System.out.printf("1. %s\n2. %s\n3. %s\n4. %s\n5. %s\n6. %s\n0. %s\n> ",
-                    "check-assignment(F, I)",
-                    "is-2-SAT(F)",
-                    "is-Horn-SAT(F)",
-                    "solve-general-SAT(F)",
-                    "solve-2-SAT(F)",
-                    "solve-Horn-SAT(F)",
-                    "exit");
+        System.out.printf("1. %s\n2. %s\n3. %s\n4. %s\n5. %s\n6. %s\n0. %s\n> ",
+                "check-assignment(F, I)",
+                "is-2-SAT(F)",
+                "is-Horn-SAT(F)",
+                "solve-general-SAT(F)",
+                "solve-2-SAT(F)",
+                "solve-Horn-SAT(F)",
+                "exit");
 
-            int selection = scanner.nextInt();
+        int selection = scanner.nextInt();
 
-            switch (selection) {
-                case 0:
-                    System.exit(0);
-                case 1:
-                    checkAssignment(formulaFromFile);
-                    break;
-                case 2:
-                    is2SAT(formulaFromFile);
-                    break;
-                case 3:
-                    isHornSAT(formulaFromFile);
-                    break;
-                case 4:
-                    solveGeneralSAT(formulaFromFile);
-                    break;
-                case 5:
-                    solve2SAT(formulaFromFile);
-                    break;
-                case 6:
-                    solveHornSAT(formulaFromFile);
-                    break;
-                default:
-                    System.err.println("Wrong Operation");
-            }
-            System.out.println();
-            System.out.println();
-            System.out.println();
+        switch (selection) {
+            case 0:
+                System.exit(0);
+            case 1:
+                checkAssignment(formulaFromFile);
+                break;
+            case 2:
+                is2SAT(formulaFromFile);
+                break;
+            case 3:
+                isHornSAT(formulaFromFile);
+                break;
+            case 4:
+                solveGeneralSAT(formulaFromFile);
+                break;
+            case 5:
+                solve2SAT(formulaFromFile);
+                break;
+            case 6:
+                solveHornSAT(formulaFromFile);
+                break;
+            default:
+                System.err.println("Wrong Operation");
         }
     }
 
@@ -94,7 +88,7 @@ public class App {
                 formulaFromFile.getNumOfVariables()
         ).isHornSAT();
 
-        System.out.printf("Formula is %s Horn-SAT!\n\n", isHornSAT ? "" : "not");
+        System.out.printf("Formula is %sHorn-SAT!\n\n", isHornSAT ? "" : "not ");
     }
 
     private void is2SAT(FormulaFromFile formulaFromFile) {
@@ -103,7 +97,7 @@ public class App {
                 formulaFromFile.getNumOfVariables()
         ).is2SAT();
 
-        System.out.printf("Formula is %s 2-SAT!\n\n", is2SAT ? "" : "not");
+        System.out.printf("Formula is %s2-SAT!\n\n", is2SAT ? "" : "not ");
     }
 
     private static void misc() {
@@ -132,13 +126,13 @@ public class App {
                 {-1, -2, -3, -5},
         };
 
-        int[][] f = new int[][] {
+        int[][] f = new int[][]{
                 {-1, -3, -4, 2},
                 {-2, -4, 1},
                 {-2, 3},
                 {2},
                 {-3, -2, 1},
-                {-1,-2,-3},
+                {-1, -2, -3},
                 {-4}
         };
 
@@ -193,28 +187,11 @@ public class App {
     }
 
     private void solveGeneralSAT(FormulaFromFile formulaFromFile) {
-        System.out.println("Solving general-SAT");
-        int[][] formula = formulaFromFile.getFormula();
-        int numOfVars = formulaFromFile.getNumOfVariables();
-        boolean[] defaultVars = generateDefaultAssignment(numOfVars);
+        Collection<Literal> solution = Cnf.from(
+                formulaFromFile.getFormula(),
+                formulaFromFile.getNumOfVariables()
+        ).solveGeneralSAT();
 
-        boolean isSatisfied = Cnf.from(formula, defaultVars).value();
-        if (isSatisfied) {
-            System.out.println(Arrays.toString(defaultVars));
-            return;
-        }
-
-        Generator generator = new Generator(numOfVars);
-
-        while (generator.hasNext()) {
-            boolean[] vars = generator.next();
-            Cnf cnf = Cnf.from(formula, vars);
-            boolean value = cnf.value();
-            if (value) {
-                System.out.println(Arrays.toString(vars));
-                return;
-            }
-        }
-        System.err.println("No Solution");
+        System.out.println(solution);
     }
 }

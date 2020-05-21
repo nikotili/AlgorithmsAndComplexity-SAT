@@ -19,6 +19,10 @@ public class Literal implements Valuable {
         return name;
     }
 
+    public int getId() {
+        return Integer.parseInt(name);
+    }
+
     public boolean value() {
         return value;
     }
@@ -66,7 +70,7 @@ public class Literal implements Valuable {
 
     private static class LiteralNegation extends Literal {
         public LiteralNegation(Literal literal) {
-            super("~" + literal.getName(), !literal.value);
+            super("-" + literal.getName(), !literal.value);
         }
     }
 }

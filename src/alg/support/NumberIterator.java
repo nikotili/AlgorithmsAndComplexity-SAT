@@ -2,18 +2,17 @@ package alg.support;
 
 import java.util.Arrays;
 
-public class Generator {
+public class NumberIterator {
 
     private final boolean[] arr;
     private final boolean ONE = true;
     private final boolean ZERO = false;
     private final boolean[] bound;
 
-    public Generator(int n) {
+    public NumberIterator(int numberOfBits) {
 
-        arr = new boolean[n];
-        bound = new boolean[n];
-        Arrays.fill(arr, false);
+        arr = new boolean[numberOfBits];
+        bound = new boolean[numberOfBits];
         Arrays.fill(bound, true);
     }
 
@@ -43,10 +42,10 @@ public class Generator {
     }
 
     public static void main(String[] args) {
-        Generator generator = new Generator(20);
+        NumberIterator numberIterator = new NumberIterator(10);
 
-        while (generator.hasNext()) {
-            System.out.println(Arrays.toString(generator.next()));
+        while (numberIterator.hasNext()) {
+            System.out.println(Arrays.toString(numberIterator.next()));
         }
     }
 }
