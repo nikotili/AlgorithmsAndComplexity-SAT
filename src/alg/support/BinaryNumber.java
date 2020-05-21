@@ -2,21 +2,32 @@ package alg.support;
 
 import java.util.Arrays;
 
-public class NumberIterator {
+/**
+ * Represents a non-negative integer by an array of boolean values
+ */
+public class BinaryNumber {
 
     private final boolean[] arr;
     private final boolean ONE = true;
     private final boolean ZERO = false;
     private final boolean[] bound;
 
-    public NumberIterator(int numberOfBits) {
+    /**
+     * Initializes the number as 0 ([false, false, false, ... ,false])
+     * @param size of the array representing the number
+     */
+    public BinaryNumber(int size) {
 
-        arr = new boolean[numberOfBits];
-        bound = new boolean[numberOfBits];
+        arr = new boolean[size];
+        bound = new boolean[size];
         Arrays.fill(bound, true);
     }
 
-    public boolean[] next() {
+    public boolean[] get() {
+        return arr;
+    }
+
+    public boolean[] incrementAndGet() {
         increment(arr.length -1, ONE, ZERO);
         return arr;
     }
@@ -37,15 +48,19 @@ public class NumberIterator {
         }
     }
 
+    /**
+     * Indicates if the number can be incremented or not.
+     * @return {@code true} if the number representation is not yet 2^size - 1
+     */
     public boolean hasNext() {
         return !Arrays.equals(arr, bound);
     }
 
     public static void main(String[] args) {
-        NumberIterator numberIterator = new NumberIterator(10);
+        BinaryNumber binaryNumber = new BinaryNumber(10);
 
-        while (numberIterator.hasNext()) {
-            System.out.println(Arrays.toString(numberIterator.next()));
+        while (binaryNumber.hasNext()) {
+            System.out.println(Arrays.toString(binaryNumber.incrementAndGet()));
         }
     }
 }

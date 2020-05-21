@@ -2,7 +2,6 @@ package alg;
 
 import alg.sat.Cnf;
 import alg.sat.Literal;
-import alg.support.NumberIterator;
 import alg.support.Support;
 
 import java.util.*;

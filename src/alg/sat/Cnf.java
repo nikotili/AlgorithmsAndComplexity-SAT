@@ -1,7 +1,7 @@
 package alg.sat;
 
 
-import alg.support.NumberIterator;
+import alg.support.BinaryNumber;
 import alg.support.Support;
 import alg.support.graph.Graph;
 
@@ -131,9 +131,9 @@ public class Cnf implements Valuable {
         if (this.value())
             return variables;
 
-        NumberIterator numberIterator = new NumberIterator(numOfVars);
-        while (numberIterator.hasNext()) {
-            boolean[] assignment = numberIterator.next();
+        BinaryNumber binaryNumber = new BinaryNumber(numOfVars);
+        while (binaryNumber.hasNext()) {
+            boolean[] assignment = binaryNumber.incrementAndGet();
             for (Literal variable : variables) {
                 boolean value = assignment[variable.getId() - 1];
                 variable.setValue(value);
