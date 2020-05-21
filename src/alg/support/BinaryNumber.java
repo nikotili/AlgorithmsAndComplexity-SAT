@@ -32,6 +32,11 @@ public class BinaryNumber {
         return arr;
     }
 
+    /**
+     * Performs the increment operation of the array.
+     * Example: array = [false, false, false, false,... ,false]
+     * after calling increment: array = [false, false, false, false,... ,true]
+     */
     private void increment(int currPos, boolean operand, boolean reminder) {
         if(arr[currPos] == ONE && operand == ONE) {
             arr[currPos] = ZERO;
