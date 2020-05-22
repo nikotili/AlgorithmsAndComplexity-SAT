@@ -31,14 +31,10 @@ public class Graph<N> {
     private Set<N> visited;
     private N[] preVisit;
     private N[] postVisit;
-    private Integer clock;
+    private int clock;
 
     public N[] getPostVisit() {
         return postVisit;
-    }
-
-    public Integer getClock() {
-        return clock;
     }
 
     public Map<Integer, Set<N>> dfs() {
@@ -48,7 +44,7 @@ public class Graph<N> {
         postVisit = (N[]) new Object[prePostSize];
         visited = new HashSet<>();
         Map<Integer, Set<N>> stronglyConnectedComponents = new HashMap<>();
-        Integer scc = 1;
+        int scc = 1;
 
         for (N node : nodes) {
             if (!visited.contains(node)) {
