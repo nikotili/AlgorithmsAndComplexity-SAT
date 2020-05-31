@@ -13,7 +13,7 @@ public class BinaryNumber {
     private final boolean[] bound;
 
     /**
-     * Initializes the number as 0 ([false, false, false, ... ,false])
+     * Initializes the number as 0 ([false, false, false, ..., false])
      * @param size of the array representing the number
      */
     public BinaryNumber(int size) {
@@ -35,7 +35,7 @@ public class BinaryNumber {
     /**
      * Performs the increment operation of the array.
      * Example: array = [false, false, false, false,... ,false]
-     * after calling increment: array = [false, false, false, false,... ,true]
+     * after calling increment: array = [false, false, false, false,..., true]
      */
     private void increment(int currPos, boolean operand, boolean reminder) {
         if(arr[currPos] == ONE && operand == ONE) {

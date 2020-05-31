@@ -101,7 +101,7 @@ public class Cnf implements Valuable {
     /**
      * Creates a graph representation of the instance.
      * @return {@link Graph<Literal>} instance containing all variables and their negations
-     * which is used by {@link #solve2SAT()} to find a satisfiable assignment for
+     * which is used by {@link #solveAs2SAT()} to find a satisfiable assignment for
      * this instance.
      * @throws IllegalStateException if the instance is not a 2-SAT
      */
@@ -125,7 +125,7 @@ public class Cnf implements Valuable {
         return graph;
     }
 
-    public Collection<Literal> solveGeneralSAT() throws NoSolutionException {
+    public Collection<Literal> solveAsGeneralSAT() throws NoSolutionException {
         Collection<Literal> variables = variables();
 
         if (this.value())
@@ -153,7 +153,7 @@ public class Cnf implements Valuable {
      * assignments.
      * @throws NoSolutionException if the 2-SAT has no solution
      */
-    public Collection<Literal> solve2SAT() throws NoSolutionException {
+    public Collection<Literal> solveAs2SAT() throws NoSolutionException {
         Graph<Literal> literalGraph = this.twoSATGraph();
         Collection<Set<Literal>> sCCs = literalGraph.sCCs().values();
         Collection<Literal> solution = new HashSet<>(numOfVars);
@@ -192,7 +192,7 @@ public class Cnf implements Valuable {
      * assignments.
      * @throws NoSolutionException if the Horn-SAT has no solution
      */
-    public Collection<Literal> solveHornSAT() throws NoSolutionException {
+    public Collection<Literal> solveAsHornSAT() throws NoSolutionException {
         if (!this.isHornSAT())
             throw new IllegalStateException("Instance is not a Horn-SAT");
         Set<HornImplication> hornImplications = clauses.stream()
@@ -225,7 +225,7 @@ public class Cnf implements Valuable {
 
 
     /**
-     * Thrown to indicate that a Cnf has no solution
+     * Thrown to indicate that a Cnf has no solution.
      */
     private static class NoSolutionException extends RuntimeException {
         public NoSolutionException(String message) {

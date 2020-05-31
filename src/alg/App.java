@@ -67,7 +67,7 @@ public class App {
         Collection<Literal> literals = Cnf.from(
                 formulaFromFile.getFormula(),
                 formulaFromFile.getNumOfVariables()
-        ).solveHornSAT();
+        ).solveAsHornSAT();
 
         System.out.println(literals);
     }
@@ -77,7 +77,7 @@ public class App {
         Collection<Literal> literals = Cnf.from(
                 formulaFromFile.getFormula(),
                 formulaFromFile.getNumOfVariables()
-        ).solve2SAT();
+        ).solveAs2SAT();
         System.out.println(literals);
     }
 
@@ -137,7 +137,7 @@ public class App {
 
 
         Cnf from = Cnf.from(f, 4);
-        System.out.println(from.solveHornSAT());
+        System.out.println(from.solveAsHornSAT());
         System.out.println(from.value());
 //        solveGeneralSAT(hornFormula, 5);
 //        testGeneral();
@@ -176,20 +176,20 @@ public class App {
 
 
         Cnf from = Cnf.from(formula, 4);
-        System.out.println(from.solve2SAT());
+        System.out.println(from.solveAs2SAT());
         System.out.println(from.value());
 
     }
 
     private static void solveHornSAT(int[][] formula, int numOfVars) {
-        Cnf.from(formula, numOfVars).solveHornSAT();
+        Cnf.from(formula, numOfVars).solveAsHornSAT();
     }
 
     private void solveGeneralSAT(FormulaFromFile formulaFromFile) {
         Collection<Literal> solution = Cnf.from(
                 formulaFromFile.getFormula(),
                 formulaFromFile.getNumOfVariables()
-        ).solveGeneralSAT();
+        ).solveAsGeneralSAT();
 
         System.out.println(solution);
     }
