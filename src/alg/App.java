@@ -16,11 +16,10 @@ public class App {
     }
 
     public static void main(String[] args) {
-        new App().start(args);
+        new App().start();
     }
 
-    //todo test menu
-    private void start(String[] args) {
+    private void start() {
 
         System.out.print("Enter the path of the file containing the formula: ");
         String path = scanner.nextLine();
@@ -136,7 +135,7 @@ public class App {
         };
 
 
-        Cnf from = Cnf.from(f, 4);
+        Cnf from = Cnf.from(hornFormula, 5);
         System.out.println(from.solveAsHornSAT());
         System.out.println(from.value());
 //        solveGeneralSAT(hornFormula, 5);

@@ -34,10 +34,6 @@ public class Clause implements Valuable {
         return literals.size() == 2;
     }
 
-    public boolean isFalse() {
-        return !value();
-    }
-
     public boolean hasAtMostOnePositiveLiteral() {
         int numOfPositiveLiterals = 0;
 

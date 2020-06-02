@@ -16,7 +16,6 @@ public class HornImplication implements Valuable {
     }
 
 
-    //todo test
     /**
      * Creates a horn-implication representation of a clause.
      * The method throws an exception if the clause has more than one positive literal.
@@ -92,7 +91,7 @@ public class HornImplication implements Valuable {
 
     /**
      * Returns the result of the implication.
-     * @return
+     * @return true if the implication is true, false otherwise
      */
     @Override
     public boolean value() {

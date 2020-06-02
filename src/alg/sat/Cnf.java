@@ -24,7 +24,7 @@ public class Cnf implements Valuable {
     public boolean value() {
         return clauses
                 .stream()
-                .noneMatch(Clause::isFalse);
+                .allMatch(Clause::value);
     }
 
     public boolean is2SAT() {
@@ -105,7 +105,7 @@ public class Cnf implements Valuable {
      * this instance.
      * @throws IllegalStateException if the instance is not a 2-SAT
      */
-    //todo test
+
     private Graph<Literal> twoSATGraph() throws IllegalStateException {
         if (!is2SAT())
             throw new IllegalStateException("Instance is not a 2-SAT");
@@ -126,6 +126,13 @@ public class Cnf implements Valuable {
     }
 
     public Collection<Literal> solveAsGeneralSAT() throws NoSolutionException {
+
+        if (is2SAT())
+            return solveAs2SAT();
+
+        if (isHornSAT())
+            return solveAsHornSAT();
+
         Collection<Literal> variables = variables();
 
         if (this.value())
