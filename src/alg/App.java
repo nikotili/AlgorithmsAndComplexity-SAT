@@ -9,7 +9,7 @@ import java.util.*;
 import static alg.support.Support.*;
 
 public class App {
-    private Scanner scanner;
+    private final Scanner scanner;
 
     private App() {
         scanner = new Scanner(System.in);
@@ -98,54 +98,9 @@ public class App {
         System.out.printf("Formula is %s2-SAT!\n\n", is2SAT ? "" : "not ");
     }
 
-    private static void misc() {
-        int[][] formula = new int[][]{
-                {1, -2},
-                {-1, -3},
-                {1, 2},
-                {-3, 4},
-                {-1, 4}
-        };
-
-        int[][] formula1 = new int[][]{
-                {1, -2, -4},
-                {-1, -3},
-                {-2, -3}
-        };
-
-        int[][] hornFormula = new int[][]{
-                {-1, -2, -3, -4, -5},
-                {-1, -2, -3, -4},
-                {-3, 4},
-                {3},
-                {-3, -5},
-                {-1, -3, -4},
-                {-2, -3, -4, 5},
-                {-1, -2, -3, -5},
-        };
-
-        int[][] f = new int[][]{
-                {-1, -3, -4, 2},
-                {-2, -4, 1},
-                {-2, 3},
-                {2},
-                {-3, -2, 1},
-                {-1, -2, -3},
-                {-4}
-        };
-
-
-        Cnf from = Cnf.from(hornFormula, 5);
-        System.out.println(from.solveAsHornSAT());
-        System.out.println(from.value());
-//        solveGeneralSAT(hornFormula, 5);
-//        testGeneral();
-//        solveHornSAT(hornFormula, 5);
-//        solveGeneralSAT(formula, 4);
-    }
-
     private void checkAssignment(FormulaFromFile formulaFromFile) {
         System.out.print("Enter assignment (0s and 1s only separated by space): ");
+        scanner.nextLine();
         String input = scanner.nextLine();
         String[] assignmentStr = input.split(" ");
         int numOfVariables = formulaFromFile.getNumOfVariables();
@@ -160,28 +115,6 @@ public class App {
 
         boolean isSatisfied = Cnf.from(formulaFromFile.getFormula(), assignment).value();
         System.out.printf("Formula is %s satisfied!\n\n", isSatisfied ? "" : "not");
-    }
-
-    private static void testGeneral() {
-        int[][] formula = new int[][]{
-                {1, -2},
-                {-1, -3},
-                {1, 2},
-                {-3, 4},
-                {-1, 4}
-        };
-
-//        Boolean[] assignment = new Boolean[] {Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, Boolean.TRUE};
-
-
-        Cnf from = Cnf.from(formula, 4);
-        System.out.println(from.solveAs2SAT());
-        System.out.println(from.value());
-
-    }
-
-    private static void solveHornSAT(int[][] formula, int numOfVars) {
-        Cnf.from(formula, numOfVars).solveAsHornSAT();
     }
 
     private void solveGeneralSAT(FormulaFromFile formulaFromFile) {

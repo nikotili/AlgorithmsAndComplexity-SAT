@@ -171,18 +171,14 @@ public class Cnf implements Valuable {
                 if (sCC.contains(negation))
                     throw new NoSolutionException("2-SAT has no solution");
 
-                if (!solution.contains(literal)) {
-                    literal.setValue(true);
-
-                    if (literal.hasPositiveSign())
+                literal.setValue(true);
+                negation.setValue(false);
+                if (!solution.contains(literal) && literal.hasPositiveSign())
                         solution.add(literal);
-                }
-                if (!solution.contains(negation)) {
-                    negation.setValue(false);
 
-                    if (negation.hasPositiveSign())
-                        solution.add(negation);
-                }
+                if (!solution.contains(negation) && negation.hasPositiveSign())
+                    solution.add(negation);
+
                 if (solution.size() == numOfVars)
                     return solution;
             }
