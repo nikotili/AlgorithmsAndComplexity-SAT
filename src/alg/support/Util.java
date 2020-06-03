@@ -7,9 +7,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Spliterators;
 
-public class Support {
+public class Util {
 
-    private Support() throws IllegalAccessException {
+    private Util() throws IllegalAccessException {
         throw new IllegalAccessException();
     }
 

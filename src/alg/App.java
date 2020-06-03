@@ -2,11 +2,11 @@ package alg;
 
 import alg.sat.Cnf;
 import alg.sat.Literal;
-import alg.support.Support;
+import alg.support.Util;
 
 import java.util.*;
 
-import static alg.support.Support.*;
+import static alg.support.Util.*;
 
 public class App {
     private final Scanner scanner;
@@ -23,7 +23,7 @@ public class App {
 
         System.out.print("Enter the path of the file containing the formula: ");
         String path = scanner.nextLine();
-        FormulaFromFile formulaFromFile = Support.extractFormulaFromFile(path);
+        FormulaFromFile formulaFromFile = Util.extractFormulaFromFile(path);
         System.out.printf("1. %s\n2. %s\n3. %s\n4. %s\n5. %s\n6. %s\n0. %s\n> ",
                 "check-assignment(F, I)",
                 "is-2-SAT(F)",
@@ -101,7 +101,8 @@ public class App {
     private void checkAssignment(FormulaFromFile formulaFromFile) {
         System.out.print("Enter assignment (0s and 1s only separated by space): ");
         scanner.nextLine();
-        String input = scanner.nextLine();
+        String input;
+        input = scanner.nextLine();
         String[] assignmentStr = input.split(" ");
         int numOfVariables = formulaFromFile.getNumOfVariables();
         boolean[] assignment = new boolean[numOfVariables];

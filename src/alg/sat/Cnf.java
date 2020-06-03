@@ -2,7 +2,7 @@ package alg.sat;
 
 
 import alg.support.BinaryNumber;
-import alg.support.Support;
+import alg.support.Util;
 import alg.support.graph.Graph;
 
 import java.util.*;
@@ -94,7 +94,7 @@ public class Cnf implements Valuable {
      * @return an instance of this class with every variable set to {@code false}
      */
     public static Cnf from(int[][] formula, int numOfVars) {
-        return from(formula, Support.generateDefaultAssignment(numOfVars));
+        return from(formula, Util.generateDefaultAssignment(numOfVars));
     }
 
 
@@ -207,12 +207,11 @@ public class Cnf implements Valuable {
                 .forEach(HornImplication::satisfy);
 
         hornImplications.stream()
-                .filter(HornImplication::isRegularImplication)
-                .filter(HornImplication::toBeSatisfied)
+                .filter(HornImplication::isRegularImplicationToBeSatisfied)
                 .forEach(HornImplication::satisfy);
 
         if (hornImplications.stream()
-                .anyMatch(HornImplication::toBeSatisfied))
+                .anyMatch(HornImplication::isPureNegativeClauseToBeSatisfied))
             throw new NoSolutionException("Horn-SAT has no solution");
 
         return variables();

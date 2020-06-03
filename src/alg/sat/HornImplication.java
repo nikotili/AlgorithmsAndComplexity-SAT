@@ -61,12 +61,12 @@ public class HornImplication implements Valuable {
     }
 
     /**
-     * Indicates if the implication has literals in both sides
-     * @return {@code true} if the implication is regular,
+     * Indicates if the implication has literals in both sides and is unsatisfied
+     * @return {@code true} if the implication is regular and {{@link #toBeSatisfied()}},
      * {@code false} otherwise.
      */
-    public boolean isRegularImplication() {
-        return !isPureNegativeClause();
+    public boolean isRegularImplicationToBeSatisfied() {
+        return !isPureNegativeClause() && toBeSatisfied();
     }
 
 
@@ -87,6 +87,11 @@ public class HornImplication implements Valuable {
      */
     public boolean isPureNegativeClause() {
         return rightHandSide == null;
+    }
+
+
+    public boolean isPureNegativeClauseToBeSatisfied() {
+        return isPureNegativeClause() && toBeSatisfied();
     }
 
     /**
